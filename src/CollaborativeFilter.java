@@ -2,12 +2,17 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.ArrayUtils;
+import com.jcabi.aspects.Cacheable;
 
 /**
  * @author Harsha Kokel
@@ -17,7 +22,9 @@ public class CollaborativeFilter {
 	static HashMap<String, HashSet<String>> playlistTrackMap;
 	static HashSet<String> trainTracks;
 	static HashMap<String, String> testMap;
+	static HashMap<String, Double> playlistsCorrelation;
 	static HashSet<String> testTracks;
+	static HashMap<String, TreeMap<String, Double>> prediction;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -25,33 +32,59 @@ public class CollaborativeFilter {
 		playlistTrackMap = new HashMap<String, HashSet<String>>();
 		trainTracks = new HashSet<String>();
 		testMap = new HashMap<String, String>();
+		playlistsCorrelation = new HashMap<String, Double>();
 		testTracks = new HashSet<String>();
+		prediction = new HashMap<String, TreeMap<String, Double>>();
 		hashPlaylistTracks(trainingfilename);
 		testPlaylistTracks();
+	}
+	
+	public static TreeMap<String, Double> sortMapByValue(TreeMap<String, Double> recommendations){
+		Comparator<String> comparator = new ValueComparator(recommendations);
+		TreeMap<String, Double> result = new TreeMap<String, Double>(comparator);
+		result.putAll(recommendations);
+		return result;
 	}
 
 	private static void testPlaylistTracks() {
 		// TODO Auto-generated method stub
 		Iterator<String> it = testMap.keySet().iterator();
-		String playlist1, track; 
+		String playlist1, originalTrack; 
 		double k=0.0, predictedValue;
+		TreeMap<String, Double> recommendations;
 		while(it.hasNext()) {
 			playlist1 = it.next();
-			predictedValue = 0.0;
-			track = testMap.get(playlist1);
-			for (String playlist2 : playlistTrackMap.keySet()) {
-				if(playlistTrackMap.get(playlist2).contains(track)) {					
-					predictedValue += calculateCorrelation(playlist1, playlist2);
+			originalTrack = testMap.get(playlist1);
+			recommendations = new TreeMap<String, Double>();
+			for(String track : trainTracks) {		
+				predictedValue = 0.0;
+				for (String playlist2 : playlistTrackMap.keySet()) {
+					if(playlistTrackMap.get(playlist2).contains(track)) {					
+						predictedValue += calculateCorrelation(playlist1, playlist2);
+					}
 				}
+				recommendations.put(track, predictedValue);
 			}
-			System.out.println(playlist1 +" - "+ track +" -> "+ predictedValue);
+			recommendations = sortMapByValue(recommendations);
+			prediction.put(playlist1, recommendations);
+			System.out.println(playlist1 +" - "+ originalTrack +" -> "+ recommendations.get(originalTrack)+"/"+recommendations.firstEntry().getValue());
 		}
 	}
 
 	private static double calculateCorrelation(String playlist1, String playlist2) {
 		// TODO Auto-generated method stub
+		String key;
+		if(playlist1.compareTo(playlist2)< 0){
+			key = playlist1+"_"+playlist2;
+		}
+		key = playlist2+"_"+playlist1;
+		if( playlistsCorrelation.containsKey(key))
+			return playlistsCorrelation.get(key);	
+		if(playlist1.equals("0") && playlist2.equals("405"))
+			System.out.println("0 & 405");
 		HashSet<String> commonTracks = (HashSet<String>) playlistTrackMap.get(playlist1).clone();
 		commonTracks.retainAll(playlistTrackMap.get(playlist2));
+		playlistsCorrelation.put(key,(double) commonTracks.size());
 		return commonTracks.size();
 	}
 
@@ -123,4 +156,18 @@ public class CollaborativeFilter {
 		}
 	}
 
+}
+
+class ValueComparator implements Comparator {
+	Map map;
+ 
+	public ValueComparator(Map map) {
+		this.map = map;
+	}
+ 
+	public int compare(Object keyA, Object keyB) {
+		Comparable valueA = (Comparable) map.get(keyA);
+		Comparable valueB = (Comparable) map.get(keyB);
+		return valueB.compareTo(valueA);
+	}
 }

@@ -27,7 +27,7 @@ public class CollaborativeFilter {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String trainingfilename = args[0];
+		String trainingfilename = "data/mpd.v1/processed_data/mpd.slice.0-999.json.csv";
 		playlistTrackMap = new HashMap<String, HashSet<String>>();
 		trainTracks = new HashSet<String>();
 		testMap = new HashMap<String, String>();

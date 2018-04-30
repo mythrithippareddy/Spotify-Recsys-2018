@@ -1,3 +1,4 @@
+# ./loop_over_all_files.sh filelist.txt
 filelist=`cat $1`
 for file in $filelist;
 do

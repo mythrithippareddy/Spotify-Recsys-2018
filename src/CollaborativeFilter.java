@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
@@ -26,8 +27,6 @@ public class CollaborativeFilter {
 	static HashMap<String, TreeMap<String, Double>> prediction;
 	static HashMap<String, HashMap<String, Integer>> playlistArtistMap;
 	static HashMap<String, HashMap<String, Integer>> playlistAlbumMap;
-	static HashMap<String, HashMap<String, Double>> artistCorrelationMap;
-	static HashMap<String, HashMap<String, Double>> albumCorrelationMap;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -42,11 +41,9 @@ public class CollaborativeFilter {
 		prediction = new HashMap<String, TreeMap<String, Double>>();
 
 		playlistArtistMap = new HashMap<String, HashMap<String, Integer>>();
-		// artistCorrelationMap = new HashMap<String, HashMap<String, Double>>();
 		hashPlaylistArtists(trainingArtistFileName);
 
 		playlistAlbumMap = new HashMap<String, HashMap<String, Integer>>();
-		// albumCorrelationMap = new HashMap<String, HashMap<String, Double>>();
 		hashPlaylistAlbums(trainingAlbumFilename);
 
 		hashPlaylistTracks(trainingTrackFilename);
@@ -175,22 +172,24 @@ public class CollaborativeFilter {
 
 	private static double correlationBetweenAlbums(String playlist1, String playlist2) {
 		double albumCorrelation = 0;
-		for (String album : playlistAlbumMap.get(playlist1).keySet()) {
-			if (playlistAlbumMap.get(playlist2).containsKey(album)) {
+		Set<String> commonAlbums = playlistAlbumMap.get(playlist1).keySet();
+		commonAlbums.retainAll(playlistAlbumMap.get(playlist2).keySet());
+		
+		for (String album : commonAlbums) {
 				albumCorrelation += playlistAlbumMap.get(playlist1).get(album)
-						* playlistAlbumMap.get(playlist2).get(album);
-			}
+						*playlistAlbumMap.get(playlist2).get(album);
 		}
 		return albumCorrelation;
 	}
 
 	private static double correlationBetweenArtists(String playlist1, String playlist2) {
 		double artistCorrelation = 0;
-		for (String artist : playlistArtistMap.get(playlist1).keySet()) {
-			if (playlistArtistMap.get(playlist2).containsKey(artist)) {
-				artistCorrelation += playlistArtistMap.get(playlist1).get(artist)
-						* playlistArtistMap.get(playlist2).get(artist);
-			}
+		Set<String> commonArtists = playlistArtistMap.get(playlist1).keySet();
+		commonArtists.retainAll(playlistAlbumMap.get(playlist2).keySet());
+		
+		for (String artist : commonArtists) {
+			artistCorrelation += playlistArtistMap.get(playlist1).get(artist)
+						*playlistArtistMap.get(playlist2).get(artist);
 		}
 		return artistCorrelation;
 	}

@@ -42,7 +42,6 @@ public class CollaborativeFilter {
 
 		playlistArtistMap = new HashMap<String, HashMap<String, Integer>>();
 		hashPlaylistArtists(trainingArtistFileName);
-
 		playlistAlbumMap = new HashMap<String, HashMap<String, Integer>>();
 		hashPlaylistAlbums(trainingAlbumFilename);
 

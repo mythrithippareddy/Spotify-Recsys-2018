@@ -37,8 +37,7 @@ public class CollaborativeFilter {
 
 	public static void main(String[] args) {
 		// Getting training file names
-//		String trainingFilename = args[0];
-		String trainingFilename = "C:\\Users\\Mythri Thippareddy\\Desktop\\Machine_Learning\\Project\\Spotify-Recsys-2018\\scripts\\mpd.slice.0-999.csv";
+		String trainingFilename = args[0];
 		long startTime = System.currentTimeMillis();
 		//Initializing all global the variables
 		playlistTrackMap = new HashMap<String, HashSet<String>>();
@@ -290,8 +289,9 @@ public class CollaborativeFilter {
 		String key;
 		if (playlist1.compareTo(playlist2) < 0) {
 			key = playlist1 + "_" + playlist2;
+		} else {
+			key = playlist2 + "_" + playlist1;
 		}
-		key = playlist2 + "_" + playlist1;
 		return key;
 	}	
 		

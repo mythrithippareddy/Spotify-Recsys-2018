@@ -20,9 +20,12 @@ import org.apache.commons.lang.ArrayUtils;
  *
  */
 public class CollaborativeFilter {
+	private static final int ALBUM_INDEX = 1;
+	private static final int ARTIST_INDEX = 0;
 	private static final int MaximumK = 1001;
 	private static final Random RANDOM = new Random();
 	static HashMap<String, HashSet<String>> playlistTrackMap;
+	static HashMap<String, String[]> trackArtistAlbumMap;
 	static HashSet<String> trainTracks;
 	static HashMap<String, HashSet<String>> testMap;
 //	static HashMap<String, TreeMap<String, Double>> prediction;
@@ -51,7 +54,7 @@ public class CollaborativeFilter {
 		playlistAlbumMap = new HashMap<String, HashMap<String, Double>>();
 		artistAverageValues= new HashMap<String, Double>();
 		albumAverageValues=new HashMap<String, Double>();
-		
+		trackArtistAlbumMap = new HashMap<String, String[]>();
 		//Reading all the training files into the hash maps
 		hashPlaylists(trainingFilename);
 		long endTime   = System.currentTimeMillis();
@@ -69,9 +72,9 @@ public class CollaborativeFilter {
 	 */
 	private static void hashPlaylists(String trainingFilename) {
 		BufferedReader br = null;
-		String line = "",  cvsSplitBy = ",", playlistId;
+		String line = "",  cvsSplitBy = ",", playlistId, track, artist, album;
 		int playlistLength;
-		String[] row;
+		String[] row, artistAlbumArray ;
 		List<Integer> testTrackIndexes;
 		HashSet<String> testTracks, playlistTracks;
 		HashMap<String, Double> playlistArtists, playlistAlbums;
@@ -107,19 +110,27 @@ public class CollaborativeFilter {
 				playlistTracks = new HashSet<String>();
 				playlistArtists = new HashMap<String, Double>();
 				playlistAlbums = new HashMap<String, Double>();
+				artistAlbumArray = new String[2];
 				for(int i=0 ; i< row.length;) {
-					playlistTracks.add(row[i++]);
-					if (playlistArtists.containsKey(row[i])) {
-						playlistArtists.put(row[i], playlistArtists.get(row[i])+1);
+					track = row[i++];
+					artist = row[i++];
+					album = row[i++];
+					playlistTracks.add(track);
+					if (playlistArtists.containsKey(artist)) {
+						playlistArtists.put(artist, playlistArtists.get(artist)+1);
 					} else {
-						playlistArtists.put(row[i], 1.0);
+						playlistArtists.put(artist, 1.0);
 					}
-					if (playlistAlbums.containsKey(row[++i])) {
-						playlistAlbums.put(row[i], playlistAlbums.get(row[i])+1);
+					if (playlistAlbums.containsKey(album)) {
+						playlistAlbums.put(album, playlistAlbums.get(album)+1);
 					} else {
-						playlistAlbums.put(row[i], 1.0);
+						playlistAlbums.put(album, 1.0);
 					}
-					i++;
+					artistAlbumArray[ARTIST_INDEX] = artist;
+					artistAlbumArray[ALBUM_INDEX] = album;
+					if(!trackArtistAlbumMap.containsKey(track)) {
+						trackArtistAlbumMap.put(track, artistAlbumArray);
+					}
 				}
 				//Normalizing 
 				for (String key : playlistArtists.keySet()) {
@@ -206,9 +217,7 @@ public class CollaborativeFilter {
 			for (String track : trainTracks) {
 				predictedValue = 0.0;
 				for (String playlist2 : playlistTrackMap.keySet()) {
-//					predictedValue += correlation(playlist1, playlist2, playlistTrackMap.get(playlist2).contains(track));
-					
-					predictedValue +=correlation(playlist1, playlist2, playlistTrackMap.get(playlist2).contains(track)) + artistsCorrelation(playlist1,playlist2)+albumsCorrelation(playlist1,playlist2);
+					predictedValue += correlation(playlist1, playlist2, track);
 				}
 				recommendations.put(track, predictedValue);
 			}
@@ -264,11 +273,23 @@ public class CollaborativeFilter {
 		System.out.println("Found "+ p +" tracks out of "+ originalTracks.size());
 	}
 
-	private static double correlation(String playlist1, String playlist2, boolean contains) {
+	private static double correlation(String playlist1, String playlist2, String track ) {
 		// TODO Weighted correlations
-		if(contains)
-			return tracksCorrelation(playlist1, playlist2);
-		return 0;
+		double weightedCorrelation = 0;
+		if(playlistTrackMap.get(playlist2).contains(track)) {
+			weightedCorrelation += 1/3*tracksCorrelation(playlist1, playlist2);
+			weightedCorrelation += 1/3*albumsCorrelation(playlist1, playlist2);
+			weightedCorrelation += 1/3*artistsCorrelation(playlist1, playlist2);
+		} else if(playlistArtistMap.get(playlist2).containsKey(trackArtistAlbumMap.get(track)[ARTIST_INDEX])) {
+			weightedCorrelation += 1/6*tracksCorrelation(playlist1, playlist2);
+			weightedCorrelation += 2/6*albumsCorrelation(playlist1, playlist2);
+			weightedCorrelation += 3/6*artistsCorrelation(playlist1, playlist2);
+		} else if(playlistAlbumMap.get(playlist2).containsKey(trackArtistAlbumMap.get(track)[ALBUM_INDEX])) {
+			weightedCorrelation += 1/6*tracksCorrelation(playlist1, playlist2);
+			weightedCorrelation += 3/6*albumsCorrelation(playlist1, playlist2);
+			weightedCorrelation += 2/6*artistsCorrelation(playlist1, playlist2);
+		}
+		return weightedCorrelation;
 	}
 
 	private static double tracksCorrelation(String playlist1, String playlist2) {
@@ -301,17 +322,19 @@ public class CollaborativeFilter {
 		if (!albumsCorrelation.containsKey(key)) {
 			//Calculate Album Correlation
 			double correlation = 0;
-			Set<String> commonAlbums = playlistAlbumMap.get(playlist1).keySet();
+			Set<String> commonAlbums = new HashSet<String>(playlistAlbumMap.get(playlist1).keySet());
 			commonAlbums.retainAll(playlistAlbumMap.get(playlist2).keySet());
-			double numerator = 0;
-			double denominatorTerm1 = 0;
-			double denominatorTerm2 = 0;
-			for (String album : commonAlbums) {
-				numerator+=((playlistAlbumMap.get(playlist1).get(album) - albumAverageValues.get(playlist1))*(playlistAlbumMap.get(playlist2).get(album) - albumAverageValues.get(playlist2)));
-				denominatorTerm1+=Math.pow((playlistAlbumMap.get(playlist1).get(album) - albumAverageValues.get(playlist1)), 2);
-				denominatorTerm2+=Math.pow((playlistAlbumMap.get(playlist2).get(album) - albumAverageValues.get(playlist2)), 2);
+			if(!commonAlbums.isEmpty()) {
+				double numerator = 0;
+				double denominatorTerm1 = 0;
+				double denominatorTerm2 = 0;
+				for (String album : commonAlbums) {
+					numerator+=((playlistAlbumMap.get(playlist1).get(album) - albumAverageValues.get(playlist1))*(playlistAlbumMap.get(playlist2).get(album) - albumAverageValues.get(playlist2)));
+					denominatorTerm1+=Math.pow((playlistAlbumMap.get(playlist1).get(album) - albumAverageValues.get(playlist1)), 2);
+					denominatorTerm2+=Math.pow((playlistAlbumMap.get(playlist2).get(album) - albumAverageValues.get(playlist2)), 2);
+				}
+				correlation = numerator/Math.sqrt((denominatorTerm1*denominatorTerm2));
 			}
-			correlation = numerator/Math.sqrt((denominatorTerm1*denominatorTerm2));
 			albumsCorrelation.put(key, correlation);
 		}
 		return albumsCorrelation.get(key);
@@ -324,17 +347,20 @@ public class CollaborativeFilter {
 		if (!artistsCorrelation.containsKey(key)) {
 			//Calculate Artist Correlation
 			double correlation = 0;
-			Set<String> commonArtists = playlistArtistMap.get(playlist1).keySet();
+			//Cloning
+			Set<String> commonArtists = new HashSet<String>(playlistArtistMap.get(playlist1).keySet());
 			commonArtists.retainAll(playlistArtistMap.get(playlist2).keySet());
-			double numerator = 0;
-			double denominatorTerm1 = 0;
-			double denominatorTerm2 = 0;
-			for (String artist : commonArtists) {
-				numerator+=((playlistArtistMap.get(playlist1).get(artist) - artistAverageValues.get(playlist1))*(playlistArtistMap.get(playlist2).get(artist) - artistAverageValues.get(playlist2)));
-				denominatorTerm1+=Math.pow((playlistArtistMap.get(playlist1).get(artist) - artistAverageValues.get(playlist1)), 2);
-				denominatorTerm2+=Math.pow((playlistArtistMap.get(playlist2).get(artist) - artistAverageValues.get(playlist2)), 2);
+			if(!commonArtists.isEmpty()) {
+				double numerator = 0;
+				double denominatorTerm1 = 0;
+				double denominatorTerm2 = 0;
+				for (String artist : commonArtists) {
+					numerator+=((playlistArtistMap.get(playlist1).get(artist) - artistAverageValues.get(playlist1))*(playlistArtistMap.get(playlist2).get(artist) - artistAverageValues.get(playlist2)));
+					denominatorTerm1+=Math.pow((playlistArtistMap.get(playlist1).get(artist) - artistAverageValues.get(playlist1)), 2);
+					denominatorTerm2+=Math.pow((playlistArtistMap.get(playlist2).get(artist) - artistAverageValues.get(playlist2)), 2);
+				}
+				correlation = numerator/Math.sqrt((denominatorTerm1*denominatorTerm2));
 			}
-			correlation = numerator/Math.sqrt((denominatorTerm1*denominatorTerm2));
 			artistsCorrelation.put(key, correlation);
 		}
 		return artistsCorrelation.get(key);

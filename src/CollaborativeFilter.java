@@ -212,22 +212,22 @@ public class CollaborativeFilter {
 				p++;
 				switch (i) {
 				case 10:
-					precision_10 += (double) p/i;
+					precision_10 += (double) p/originalTracks.size();
 					break;
 				case 50:
-					precision_50 += (double) p/i;
+					precision_50 += (double) p/originalTracks.size();
 					break;
 				case 100:
-					precision_100 += (double) p/i;
+					precision_100 += (double) p/originalTracks.size();
 					break;
 				case 200:
-					precision_200 += (double) p/i;
+					precision_200 += (double) p/originalTracks.size();
 					break;
 				case 500:
-					precision_500 += (double) p/i;
+					precision_500 += (double) p/originalTracks.size();
 					break;
 				case 1000:
-					precision_1000 += (double) p/i;
+					precision_1000 += (double) p/originalTracks.size();
 					break;
 				default:
 					break;

@@ -281,13 +281,13 @@ public class CollaborativeFilter {
 //			weightedCorrelation += 1/3*albumsCorrelation(playlist1, playlist2);
 //			weightedCorrelation += 1/3*artistsCorrelation(playlist1, playlist2);
 		} else if(playlistArtistMap.get(playlist2).containsKey(trackArtistAlbumMap.get(track)[ARTIST_INDEX])) {
-			weightedCorrelation += 1/3*tracksCorrelation(playlist1, playlist2);
-			weightedCorrelation += 1/3*albumsCorrelation(playlist1, playlist2);
-			weightedCorrelation += 1/3*artistsCorrelation(playlist1, playlist2);
+			weightedCorrelation += 1/4*tracksCorrelation(playlist1, playlist2);
+			weightedCorrelation += 1/4*albumsCorrelation(playlist1, playlist2);
+			weightedCorrelation += 2/4*artistsCorrelation(playlist1, playlist2);
 		} else if(playlistAlbumMap.get(playlist2).containsKey(trackArtistAlbumMap.get(track)[ALBUM_INDEX])) {
-			weightedCorrelation += 1/3*tracksCorrelation(playlist1, playlist2);
-			weightedCorrelation += 1/3*albumsCorrelation(playlist1, playlist2);
-			weightedCorrelation += 1/3*artistsCorrelation(playlist1, playlist2);
+			weightedCorrelation += 1/4*tracksCorrelation(playlist1, playlist2);
+			weightedCorrelation += 2/4*albumsCorrelation(playlist1, playlist2);
+			weightedCorrelation += 1/4*artistsCorrelation(playlist1, playlist2);
 		}
 		return weightedCorrelation;
 	}

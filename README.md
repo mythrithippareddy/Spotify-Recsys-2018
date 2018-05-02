@@ -36,12 +36,12 @@ Artist Correlation = SumOverAllExamples( (playlist1.artistweight - playlist1.ave
 
 Ratio is:  tracksCorrelation:albumsCorrelation:artistsCorrelation
 
-| Track found in playlist | Artist found in playlist | Album Found in playlist | Default | precision @ 10 | precision @ 50 | precision @ 100 | precision @ 200 | precision @ 500 | precision @ 1000 |
-|-------|-------| ------- | ------ |------| ----- |------|-------|-------|
-| 1:0:0 | 0     | 0       | 0      | 0.01068 | 0.0882 | 0.2019 | 0.3388 | 0.5259 |0.6419 |  
-| 1:0:0 | 1:1:2 | 1:2:1 | 0 | 0.0031 | 0.0215 | 0.0447 | 0.0832 | 0.1558 |  0.2466|  
-| 1:0:0 | 1:1:1 | 1:1:1 | 0 | 0.0031 | 0.0158 | 0.0314 | 0.0678 | 0.1428 | 0.2262 |  
-| 1:1:1 | 1:2:3 | 1:3:2 | 0 | 8.2621E-4 | 0.0040 | 0.0065 | 0.0184 | 0.04351 | 0.0872 |
+| Track found in playlist | Artist found in playlist | Album Found in playlist | Default | precision @ 10 | precision @ 50 | precision @ 100 | precision @ 200 | precision @ 500 | precision @ 1000 |  
+|-------|-------| ------- | ------ |------| -----|------|-------|-------|---- |  
+| 1:0:0 | 0     | 0       | 0      | 0.01068 | 0.0882 | 0.2019 | 0.3388 | 0.5259 |0.6419 |    
+| 1:0:0 | 1:1:2 | 1:2:1 | 0 | 0.0031 | 0.0215 | 0.0447 | 0.0832 | 0.1558 |  0.2466|    
+| 1:0:0 | 1:1:1 | 1:1:1 | 0 | 0.0031 | 0.0158 | 0.0314 | 0.0678 | 0.1428 | 0.2262 |   
+| 1:1:1 | 1:2:3 | 1:3:2 | 0 | 8.2621E-4 | 0.0040 | 0.0065 | 0.0184 | 0.04351 | 0.0872 |  
 
 ##### References
 * J.S. Breese, D. Heckerman, C. Kadie, "Empirical Analysis of Predictive Algorithms for Collaborative Filtering", Proc. 14th Conf. Uncertainty in Artificial Intelligence, July 1998.

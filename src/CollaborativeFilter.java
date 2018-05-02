@@ -20,7 +20,7 @@ import org.apache.commons.lang.ArrayUtils;
  *
  */
 public class CollaborativeFilter {
-	private static final int MaximumK = 1000;
+	private static final int MaximumK = 1001;
 	private static final Random RANDOM = new Random();
 	static HashMap<String, HashSet<String>> playlistTrackMap;
 	static HashSet<String> trainTracks;
@@ -173,11 +173,16 @@ public class CollaborativeFilter {
 		Set<String> originalTracks;
 		double k = 0.0, predictedValue;
 		TreeMap<String, Double> recommendations;
+		int count =0;
 		// Iterating over all playlists in testMap 
 		while (it.hasNext()) {
 			playlist1 = it.next();
 			System.out.println("Testing playlist "+ playlist1);
 			originalTracks = testMap.get(playlist1);
+			if(originalTracks.size()==0){
+				continue;
+			}
+			count++;
 			recommendations = new TreeMap<String, Double>();
 			for (String track : trainTracks) {
 				predictedValue = 0.0;
@@ -189,12 +194,12 @@ public class CollaborativeFilter {
 			recommendations = sortMapByValue(recommendations);
 			evaluate(originalTracks, recommendations);
 		}
-		System.out.println("Precision @ 10 "+ precision_10/testMap.size());
-		System.out.println("Precision @ 50 "+ precision_50/testMap.size());
-		System.out.println("Precision @ 100 "+ precision_100/testMap.size());
-		System.out.println("Precision @ 200 "+ precision_200/testMap.size());
-		System.out.println("Precision @ 500 "+ precision_500/testMap.size());
-		System.out.println("Precision @ 1000 "+ precision_1000/testMap.size());
+		System.out.println("Precision @ 10 "+ precision_10 +" - "+ (double) precision_10/count);
+		System.out.println("Precision @ 50 "+ precision_50/count);
+		System.out.println("Precision @ 100 "+ precision_100/count);
+		System.out.println("Precision @ 200 "+ precision_200/count);
+		System.out.println("Precision @ 500 "+ precision_500/count);
+		System.out.println("Precision @ 1000 "+ precision_1000/count );
 	}
 
 	
@@ -210,6 +215,7 @@ public class CollaborativeFilter {
 			Entry<String, Double> recommendation = recommendations.pollFirstEntry();
 			if(originalTracks.contains(recommendation.getKey())) {
 				p++;
+			}
 				switch (i) {
 				case 10:
 					precision_10 += (double) p/originalTracks.size();
@@ -232,7 +238,7 @@ public class CollaborativeFilter {
 				default:
 					break;
 				}
-		    }
+		    
 		}
 		System.out.println("Found "+ p +" tracks out of "+ originalTracks.size());
 	}

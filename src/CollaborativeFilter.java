@@ -20,23 +20,23 @@ import org.apache.commons.lang.ArrayUtils;
  *
  */
 public class CollaborativeFilter {
-	private static final int MaximumK = 50;
+	private static final int MaximumK = 1000;
 	private static final Random RANDOM = new Random();
 	static HashMap<String, HashSet<String>> playlistTrackMap;
 	static HashSet<String> trainTracks;
 	static HashMap<String, HashSet<String>> testMap;
-	static HashMap<String, TreeMap<String, Double>> prediction;
+//	static HashMap<String, TreeMap<String, Double>> prediction;
 	static HashMap<String, HashMap<String, Double>> playlistArtistMap;
 	static HashMap<String, HashMap<String, Double>> playlistAlbumMap;
 	static HashMap<String, Double> tracksCorrelation;
 	static HashMap<String, Double> albumsCorrelation;
 	static HashMap<String, Double> artistsCorrelation;
-	static double precision_5, precision_10, precision_20, precision_25, precision_50; 
+	static double precision_10,  precision_50, precision_100, precision_200, precision_500, precision_1000; 
 
 	public static void main(String[] args) {
 		// Getting training file names
 		String trainingFilename = args[0];
-		
+		long startTime = System.currentTimeMillis();
 		//Initializing all global the variables
 		playlistTrackMap = new HashMap<String, HashSet<String>>();
 		trainTracks = new HashSet<String>();
@@ -44,15 +44,18 @@ public class CollaborativeFilter {
 		tracksCorrelation = new HashMap<String, Double>();
 		albumsCorrelation = new HashMap<String, Double>();
 		artistsCorrelation = new HashMap<String, Double>();
-		prediction = new HashMap<String, TreeMap<String, Double>>();
+//		prediction = new HashMap<String, TreeMap<String, Double>>();
 		playlistArtistMap = new HashMap<String, HashMap<String, Double>>();
 		playlistAlbumMap = new HashMap<String, HashMap<String, Double>>();
 		
 		//Reading all the training files into the hash maps
 		hashPlaylists(trainingFilename);
-		
+		long endTime   = System.currentTimeMillis();
+		System.out.println("Training completed in "+ (endTime - startTime)/1000+ " secs");
 		//Testing the playlists		
 		testPlaylists();
+		startTime   = System.currentTimeMillis();
+		System.out.println("Testing completed in "+ (startTime - endTime)/1000+ " secs");
 	}
 
 	/**
@@ -173,6 +176,7 @@ public class CollaborativeFilter {
 		// Iterating over all playlists in testMap 
 		while (it.hasNext()) {
 			playlist1 = it.next();
+			System.out.println("Testing playlist "+ playlist1);
 			originalTracks = testMap.get(playlist1);
 			recommendations = new TreeMap<String, Double>();
 			for (String track : trainTracks) {
@@ -184,13 +188,13 @@ public class CollaborativeFilter {
 			}
 			recommendations = sortMapByValue(recommendations);
 			evaluate(originalTracks, recommendations);
-			prediction.put(playlist1, recommendations);
 		}
-		System.out.println("Precision @ 5 "+ precision_5/testMap.size());
 		System.out.println("Precision @ 10 "+ precision_10/testMap.size());
-		System.out.println("Precision @ 20 "+ precision_20/testMap.size());
-		System.out.println("Precision @ 25 "+ precision_25/testMap.size());
 		System.out.println("Precision @ 50 "+ precision_50/testMap.size());
+		System.out.println("Precision @ 100 "+ precision_100/testMap.size());
+		System.out.println("Precision @ 200 "+ precision_200/testMap.size());
+		System.out.println("Precision @ 500 "+ precision_500/testMap.size());
+		System.out.println("Precision @ 1000 "+ precision_1000/testMap.size());
 	}
 
 	
@@ -207,26 +211,30 @@ public class CollaborativeFilter {
 			if(originalTracks.contains(recommendation.getKey())) {
 				p++;
 				switch (i) {
-				case 5:
-					precision_5 += (double) p/i;
-					break;
 				case 10:
 					precision_10 += (double) p/i;
 					break;
-				case 20:
-					precision_20 += (double) p/i;
-					break;
-				case 25:
-					precision_25 += (double) p/i;
-					break;
 				case 50:
 					precision_50 += (double) p/i;
+					break;
+				case 100:
+					precision_100 += (double) p/i;
+					break;
+				case 200:
+					precision_200 += (double) p/i;
+					break;
+				case 500:
+					precision_500 += (double) p/i;
+					break;
+				case 1000:
+					precision_1000 += (double) p/i;
 					break;
 				default:
 					break;
 				}
 		    }
 		}
+		System.out.println("Found "+ p +" tracks out of "+ originalTracks.size());
 	}
 
 	private static double correlation(String playlist1, String playlist2, boolean contains) {

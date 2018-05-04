@@ -42,6 +42,7 @@ Ratio is:  tracksCorrelation:albumsCorrelation:artistsCorrelation
 | 1:0:0 | 1:1:2 | 1:2:1 | 0 | 0.0031 | 0.0215 | 0.0447 | 0.0832 | 0.1558 |  0.2466|    
 | 1:0:0 | 1:1:1 | 1:1:1 | 0 | 0.0031 | 0.0158 | 0.0314 | 0.0678 | 0.1428 | 0.2262 |   
 | 1:1:1 | 1:2:3 | 1:3:2 | 0 | 8.2621E-4 | 0.0040 | 0.0065 | 0.0184 | 0.04351 | 0.0872 |  
+| 1:0:0 | 0:1:0 | 0:0:1| 0 | 0.00106 | 0.0053 | 0.0121 |0.02237 | 0.0526 | 0.08069 |  
 
 ##### References
 * J.S. Breese, D. Heckerman, C. Kadie, "Empirical Analysis of Predictive Algorithms for Collaborative Filtering", Proc. 14th Conf. Uncertainty in Artificial Intelligence, July 1998.

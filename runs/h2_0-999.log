@@ -1,0 +1,279 @@
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for Spotify-Recsys-2018:Spotify-Recsys-2018:jar:0.0.1-SNAPSHOT
+[WARNING] 'build.plugins.plugin.version' for org.codehaus.mojo:exec-maven-plugin is missing. @ line 26, column 12
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Spotify-Recsys-2018 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- exec-maven-plugin:1.6.0:java (default-cli) @ Spotify-Recsys-2018 ---
+Number of Playlists: 1000
+Number of unique train tracks: 32092
+Training completed in 0 secs
+Testing playlist 0
+Found 4 tracks out of 4
+Testing playlist 1
+Found 1 tracks out of 1
+Testing playlist 2
+Found 1 tracks out of 1
+Testing playlist 3
+Found 2 tracks out of 3
+Testing playlist 4
+Found 0 tracks out of 1
+Testing playlist 5
+Found 1 tracks out of 7
+Testing playlist 6
+Found 1 tracks out of 1
+Testing playlist 7
+Found 1 tracks out of 3
+Testing playlist 8
+Found 3 tracks out of 4
+Testing playlist 800
+Testing playlist 9
+Testing playlist 801
+Found 0 tracks out of 1
+Testing playlist 802
+Testing playlist 803
+Found 16 tracks out of 16
+Testing playlist 804
+Found 7 tracks out of 7
+Testing playlist 805
+Testing playlist 806
+Found 5 tracks out of 12
+Testing playlist 807
+Found 5 tracks out of 7
+Testing playlist 808
+Found 4 tracks out of 9
+Testing playlist 809
+Found 1 tracks out of 1
+Testing playlist 810
+Found 1 tracks out of 1
+Testing playlist 811
+Found 3 tracks out of 3
+Testing playlist 812
+Found 7 tracks out of 7
+Testing playlist 813
+Found 3 tracks out of 4
+Testing playlist 814
+Found 0 tracks out of 2
+Testing playlist 815
+Found 8 tracks out of 14
+Testing playlist 816
+Found 1 tracks out of 4
+Testing playlist 817
+Found 4 tracks out of 5
+Testing playlist 818
+Testing playlist 819
+Testing playlist 820
+Found 0 tracks out of 1
+Testing playlist 821
+Found 2 tracks out of 2
+Testing playlist 822
+Found 6 tracks out of 14
+Testing playlist 823
+Found 5 tracks out of 5
+Testing playlist 824
+Found 1 tracks out of 1
+Testing playlist 825
+Found 5 tracks out of 7
+Testing playlist 826
+Testing playlist 827
+Testing playlist 828
+Found 1 tracks out of 1
+Testing playlist 829
+Found 2 tracks out of 2
+Testing playlist 830
+Found 1 tracks out of 1
+Testing playlist 831
+Found 5 tracks out of 7
+Testing playlist 832
+Found 1 tracks out of 2
+Testing playlist 833
+Found 1 tracks out of 6
+Testing playlist 834
+Found 1 tracks out of 1
+Testing playlist 835
+Found 8 tracks out of 16
+Testing playlist 836
+Testing playlist 837
+Found 1 tracks out of 1
+Testing playlist 838
+Testing playlist 839
+Found 3 tracks out of 6
+Testing playlist 840
+Found 7 tracks out of 10
+Testing playlist 841
+Found 1 tracks out of 1
+Testing playlist 600
+Found 11 tracks out of 14
+Testing playlist 842
+Found 5 tracks out of 5
+Testing playlist 601
+Found 1 tracks out of 2
+Testing playlist 843
+Found 4 tracks out of 12
+Testing playlist 602
+Found 1 tracks out of 2
+Testing playlist 844
+Found 5 tracks out of 11
+Testing playlist 603
+Found 2 tracks out of 4
+Testing playlist 845
+Testing playlist 604
+Testing playlist 846
+Found 2 tracks out of 2
+Testing playlist 605
+Found 4 tracks out of 6
+Testing playlist 847
+Found 7 tracks out of 16
+Testing playlist 606
+Found 10 tracks out of 11
+Testing playlist 848
+Found 3 tracks out of 4
+Testing playlist 607
+Found 1 tracks out of 6
+Testing playlist 849
+Found 2 tracks out of 7
+Testing playlist 608
+Found 2 tracks out of 5
+Testing playlist 609
+Found 4 tracks out of 4
+Testing playlist 850
+Found 5 tracks out of 5
+Testing playlist 851
+Testing playlist 610
+Found 2 tracks out of 2
+Testing playlist 852
+Found 1 tracks out of 4
+Testing playlist 611
+Found 3 tracks out of 6
+Testing playlist 853
+Testing playlist 612
+Found 6 tracks out of 8
+Testing playlist 854
+Found 5 tracks out of 8
+Testing playlist 613
+Found 1 tracks out of 1
+Testing playlist 855
+Found 1 tracks out of 1
+Testing playlist 614
+Found 0 tracks out of 2
+Testing playlist 856
+Found 1 tracks out of 1
+Testing playlist 615
+Testing playlist 857
+Found 3 tracks out of 7
+Testing playlist 616
+Found 4 tracks out of 11
+Testing playlist 858
+Found 3 tracks out of 5
+Testing playlist 617
+Found 4 tracks out of 5
+Testing playlist 859
+Found 2 tracks out of 12
+Testing playlist 618
+Found 1 tracks out of 1
+Testing playlist 619
+Found 0 tracks out of 2
+Testing playlist 860
+Found 0 tracks out of 1
+Testing playlist 861
+Found 4 tracks out of 4
+Testing playlist 620
+Found 2 tracks out of 2
+Testing playlist 862
+Testing playlist 621
+Found 6 tracks out of 8
+Testing playlist 863
+Found 0 tracks out of 4
+Testing playlist 622
+Testing playlist 864
+Found 2 tracks out of 3
+Testing playlist 623
+Found 4 tracks out of 5
+Testing playlist 865
+Testing playlist 624
+Testing playlist 866
+Found 1 tracks out of 1
+Testing playlist 625
+Found 5 tracks out of 6
+Testing playlist 867
+Found 2 tracks out of 3
+Testing playlist 626
+Found 0 tracks out of 2
+Testing playlist 868
+Testing playlist 627
+Found 0 tracks out of 4
+Testing playlist 869
+Found 2 tracks out of 3
+Testing playlist 628
+Found 1 tracks out of 2
+Testing playlist 629
+Found 2 tracks out of 2
+Testing playlist 870
+Found 2 tracks out of 2
+Testing playlist 871
+Found 1 tracks out of 1
+Testing playlist 630
+Found 4 tracks out of 4
+Testing playlist 872
+Found 2 tracks out of 2
+Testing playlist 631
+Found 0 tracks out of 1
+Testing playlist 873
+Found 2 tracks out of 3
+Testing playlist 632
+Found 1 tracks out of 1
+Testing playlist 874
+Found 6 tracks out of 10
+Testing playlist 633
+Found 12 tracks out of 14
+Testing playlist 875
+Found 1 tracks out of 2
+Testing playlist 634
+Found 4 tracks out of 5
+Testing playlist 876
+Found 2 tracks out of 3
+Testing playlist 635
+Found 5 tracks out of 6
+Testing playlist 877
+Found 0 tracks out of 1
+Testing playlist 636
+Found 2 tracks out of 3
+Testing playlist 878
+Found 1 tracks out of 1
+Testing playlist 637
+Found 16 tracks out of 19
+Testing playlist 879
+Found 14 tracks out of 19
+Testing playlist 638
+Testing playlist 639
+Found 1 tracks out of 2
+Testing playlist 880
+Found 1 tracks out of 2
+Testing playlist 881
+Found 1 tracks out of 1
+Testing playlist 640
+Found 1 tracks out of 1
+Testing playlist 882
+Testing playlist 641
+Testing playlist 883
+Found 5 tracks out of 8
+Testing playlist 400
+Found 1 tracks out of 2
+Testing playlist 642
+Found 8 tracks out of 10
+Testing playlist 884
+Found 0 tracks out of 1
+Testing playlist 401

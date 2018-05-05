@@ -37,8 +37,7 @@ public class CollaborativeFilter {
 
 	public static void main(String[] args) {
 		// Getting training file names
-		// String trainingFilename = args[0];
-		String trainingFilename = "C:\\Users\\Mythri Thippareddy\\Desktop\\Machine_Learning\\Project\\Spotify-Recsys-2018\\scripts\\Combine.csv";
+		String trainingFilename = args[0];
 		long startTime = System.currentTimeMillis();
 		// Initializing all global the variables
 		playlistTrackMap = new HashMap<String, HashSet<String>>();

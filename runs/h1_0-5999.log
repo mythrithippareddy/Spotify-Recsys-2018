@@ -18,3 +18,61 @@ WARNING: All illegal access operations will be denied in a future release
 [INFO] ------------------------------------------------------------------------
 [INFO] 
 [INFO] --- exec-maven-plugin:1.6.0:java (default-cli) @ Spotify-Recsys-2018 ---
+Number of Playlists: 6000
+Number of unique train tracks: 115264
+Training completed in 2 secs
+Testing playlist 4970
+Found 1 tracks out of 2
+Testing playlist 3640
+Found 5 tracks out of 11
+Testing playlist 4971
+Found 1 tracks out of 2
+Testing playlist 2306
+Found 5 tracks out of 5
+Testing playlist 3638
+Found 0 tracks out of 1
+Testing playlist 4969
+Found 5 tracks out of 7
+Testing playlist 2305
+Found 1 tracks out of 4
+Testing playlist 3639
+Found 0 tracks out of 1
+Testing playlist 2304
+Found 15 tracks out of 19
+Testing playlist 2303
+Found 2 tracks out of 2
+Testing playlist 2302
+Found 6 tracks out of 7
+Testing playlist 2301
+Found 2 tracks out of 2
+Testing playlist 2300
+Found 5 tracks out of 6
+Testing playlist 3630
+Found 3 tracks out of 8
+Testing playlist 4961
+Found 1 tracks out of 2
+Testing playlist 3631
+Found 1 tracks out of 2
+Testing playlist 4962
+Testing playlist 3632
+Found 1 tracks out of 1
+Testing playlist 4963
+Found 1 tracks out of 2
+Testing playlist 3633
+Found 2 tracks out of 5
+Testing playlist 4964
+Found 0 tracks out of 1
+Testing playlist 3634
+Found 0 tracks out of 1
+Testing playlist 4965
+Testing playlist 2309
+Found 6 tracks out of 9
+Testing playlist 3635
+Found 10 tracks out of 14
+Testing playlist 4966
+Found 2 tracks out of 2
+Testing playlist 2308
+Found 8 tracks out of 9
+Testing playlist 3636
+Found 0 tracks out of 1
+Testing playlist 4967
